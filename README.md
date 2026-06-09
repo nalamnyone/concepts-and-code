@@ -250,7 +250,7 @@ test_cases = [
 
 The `ids=lambda tc: tc.id` parameter passes custom names to each case, so the test output is readable at a glance:
 
-![Dataclass output verbose](screenshots/13-exception-raises.png)
+![Dataclass output verbose](screenshots/13-exception-output-verbose.png)
 
 ---
 
