@@ -411,8 +411,10 @@ E       Failed: Timeout (>1.0s) from pytest-timeout.
 tests/test_with_timeout.py:12: Failed
 1 failed, 1 passed in 4.07s
 ```
+The time.sleep() calls here are stand-ins for whatever real logic you want to time-constrain.
+Running these produces one pass and one failure:
 
-![Timeout fail output](screenshots/22-timeout-fail-output.png)
+![Timeout fail output](screenshots/23-full-suite-run.png)
 
 The failure message Timeout >1.0s appears exactly where the hanging call is, which makes it
 easy to trace.
