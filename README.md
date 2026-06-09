@@ -21,9 +21,17 @@
 
 ## 1. Introduction
 
-Unit tests are the type of tests where each component of the program is tested on its own. Instead of running the entire software and analyzing output manually, unit tests feed specific input values to a function and verify the output matches what's expected.
-
-This guide uses a concrete example: a function that transforms raw byte values into human-readable strings like `1.00 MB` or `3.50 GB`. The testing library used is **Pytest** — the most common Python testing library, valued for its automatic test discovery and informative error messages.
+Unit tests are the type of tests where each component of the program is tested on its own. In
+other words, one doesn't have to run the entire software and analyze its output manually but just
+run unit tests that will feed certain input values to a function and check if the output is as
+expected.
+For the purpose of this exercise , I chose to test a simple function that would transform raw byte
+values into strings of KB, MB, and GB units such as `1.00 MB` and `3.50 GB`. Having a concrete
+example rather than abstract code definitely helped me understand better the notions discussed
+above.
+The testing library used is Pytest , the most common testing library for writing Python unit tests.
+One of the advantages of this library is that it automatically finds tests and provides informative
+error messages, among others.
 
 ---
 
@@ -97,7 +105,7 @@ Pytest discovers tests automatically based on naming. The rules are:
 - **Test functions** must start with `test_` (e.g., `test_format_file_size_returns_format_mb`)
 - **Test classes** must start with `Test` (capitalized), and their methods must also start with `test_`
 
-Descriptive names matter. A name like `test_format_file_size_returns_format_kb` immediately communicates what scenario is being verified — useful when a test fails and you need to know what broke.
+Descriptive names matter. A name like `test_format_file_size_returns_format_kb` immediately communicates what scenario is being verified , which  useful when a test fails and you need to know what broke.
 
 ```python
 # Example of a class-based test structure
