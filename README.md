@@ -211,7 +211,7 @@ tests/test_format_file_size.py::test_format_file_size[1-1.00 B] PASSED
 tests/test_format_file_size.py::test_format_file_size[1024-1.00 KB] PASSED
 ```
 
-![Parametrize output](screenshots/08-parametrize-output.png)
+![Parametrize output](screenshots/10-dataclass-test-cases.png)
 
 ---
 
@@ -236,8 +236,6 @@ class FileSizeTestCase:
         self.id = f"test_format_file_size_{self.size_bytes}_bytes"
 ```
 
-![Dataclass definition](screenshots/09-dataclass-definition.png)
-
 Each test case is then an instance of that class:
 
 ```python
@@ -251,20 +249,9 @@ test_cases = [
 ]
 ```
 
-![Dataclass test cases](screenshots/10-dataclass-test-cases.png)
-
 The `ids=lambda tc: tc.id` parameter passes custom names to each case, so the test output is readable at a glance:
 
-```
-tests/test_format_file_size.py::test_format_file_size[test_format_file_size_0_bytes] PASSED
-tests/test_format_file_size.py::test_format_file_size[test_format_file_size_1_bytes] PASSED
-tests/test_format_file_size.py::test_format_file_size[test_format_file_size_1024_bytes] PASSED
-tests/test_format_file_size.py::test_format_file_size[test_format_file_size_1048576_bytes] PASSED
-tests/test_format_file_size.py::test_format_file_size[test_format_file_size_1073741824_bytes] PASSED
-tests/test_format_file_size.py::test_format_file_size[test_format_file_size_1099511627776_bytes] PASSED
-```
-
-![Dataclass output verbose](screenshots/11-dataclass-output-verbose.png)
+![Dataclass output verbose](screenshots/13-exception-raises.png)
 
 ---
 
@@ -278,15 +265,11 @@ def test_format_file_size_negative_size():
         format_file_size(-1)
 ```
 
-![Exception raises code](screenshots/12-exception-raises.png)
-
 The `match` parameter checks that the exception message contains the expected string — confirming not just that an error was raised, but that it was the right error with the right message.
 
-![Exception output verbose](screenshots/13-exception-output-verbose.png)
+![Exception output verbose](screenshots/15-dataclass-raises-output.png)
 
 When using data classes, the same logic applies. The test function checks for `expected_error` and handles it through `pytest.raises()`:
-
-![Dataclass raises parametrize](screenshots/14-dataclass-raises-parametrize.png)
 
 ```python
 @pytest.mark.parametrize("test_case", test_cases, ids=lambda tc: tc.id)
@@ -309,8 +292,6 @@ Fixtures are helper functions that Pytest runs before (or after) a test to set u
 
 A simple fixture looks like this:
 
-![Basic fixture code](screenshots/16-fixture-basic.png)
-
 ```python
 import pytest
 
@@ -329,8 +310,6 @@ Pytest injects the fixture automatically when it sees a parameter name that matc
 ### 8.1 Fixtures with Teardown
 
 When a fixture creates a resource that needs to be cleaned up (like a database connection), teardown logic can be added using `request.addfinalizer()`:
-
-![Fixture teardown db](screenshots/17-fixture-teardown-db.png)
 
 ```python
 @pytest.fixture(scope="module")
@@ -354,7 +333,7 @@ def db_connection(request):
 
 The `scope="module"` argument means this fixture is created once and shared across all tests in the module — as opposed to being recreated for each individual test. This is particularly useful when setup is expensive, like opening a real database connection.
 
-![Fixture db output](screenshots/18-fixture-db-output.png)
+![Fixture db output](screenshots/20-timeout-marker-code.png)
 
 ---
 
@@ -364,52 +343,21 @@ One of Pytest's strengths is how far it can be extended without much extra code.
 
 ### 9.1 `pytest-timeout`
 
-`pytest-timeout` lets you set a maximum execution time on individual tests. This is useful for catching tests that hang or call slow external services — problems that would otherwise silently block the entire test run.
+A straightforward example is `pytest-timeout`, which lets you set a maximum execution time on
+individual tests. This is useful for catching tests that hang or call slow external services ,such as
+problems that would otherwise silently block the entire test run.
 
 ```bash
 pip install pytest-timeout
 ```
 
-![Plugin timeout install](screenshots/19-plugin-timeout-install.png)
+![Plugin timeout install](screenshots/21-timeout-pass-output.png)
 
 Apply the marker to any test:
 
-![Timeout marker code](screenshots/20-timeout-marker-code.png)
-
-```python
-import pytest
-import time
-
-@pytest.mark.timeout(5)  # passes — finishes in 3 seconds
-def test_function_with_timeout():
-    time.sleep(3)
-    assert True
+![Timeout marker code](screenshots/22-timeout-fail-output.png)
 
 
-@pytest.mark.timeout(1)  # fails — takes 2 seconds, limit is 1
-def test_function_exceeding_timeout():
-    time.sleep(2)
-    assert True
-```
-
-Running these produces one pass and one failure. The failure message `Timeout >1.0s` appears exactly where the hanging call is, making it easy to trace:
-
-![Timeout pass output](screenshots/21-timeout-pass-output.png)
-
-```
-tests/test_with_timeout.py::test_function_with_timeout PASSED     [ 50%]
-tests/test_with_timeout.py::test_function_exceeding_timeout FAILED [100%]
-
-FAILURES
-___________________________ test_function_exceeding_timeout ___________________________
-
-    @pytest.mark.timeout(1)  # fails — takes 2 seconds, limit is 1
-    def test_function_exceeding_timeout():
->       time.sleep(2)
-E       Failed: Timeout (>1.0s) from pytest-timeout.
-
-tests/test_with_timeout.py:12: Failed
-1 failed, 1 passed in 4.07s
 ```
 The time.sleep() calls here are stand-ins for whatever real logic you want to time-constrain.
 Running these produces one pass and one failure:
