@@ -63,26 +63,10 @@ PYTEST-DEMO/
 
 The `formatter.py` file contains the function being tested:
 
-```python
-import math
-
-def format_file_size(size_bytes):
-    if size_bytes < 0:
-        raise ValueError("Size cannot be negative")
-
-    elif size_bytes == 0:
-        return "0B"
-
-    size_name = ["B", "KB", "MB", "GB", "TB"]
-    i = int(math.floor(math.log(size_bytes) / math.log(1024)))
-    p = math.pow(1024, i)
-    s = "{:.2f}".format(size_bytes / p)
-    return f"{s} {size_name[i]}"
-```
 
 ![formatter.py in VSCode](screenshots/02-formatter-code.png)
 
-Install Pytest and run it from the terminal:
+To run any tests, Pytest must first be installed and invoked from the terminal:
 
 ```bash
 pip install pytest
@@ -113,7 +97,7 @@ class TestFormatFileSize:
     def test_format_file_size_returns_gb_format(self):
         assert format_file_size(1024**3) == "1.00 GB"
 ```
-
+![Run single test](screenshots/04-run-single-test.png)
 ---
 
 ## 4. Filtering Tests
@@ -129,8 +113,7 @@ pytest tests/test_format_file_size.py
 ```bash
 pytest tests/test_format_file_size.py::test_format_file_size_returns_format_tb
 ```
-
-![Run single test](screenshots/04-run-single-test.png)
+![Filter by -k mb](screenshots/05-filter-k-mb.png)
 
 **Run a specific method within a class:**
 ```bash
@@ -142,9 +125,11 @@ pytest tests/test_file.py::TestClassName::test_method
 pytest -k mb
 ```
 
+![Filter exclude](screenshots/06-filter-exclude.png)
+
 This runs only tests whose names contain the string `mb` — in this case, `test_format_file_size_returns_format_mb`.
 
-![Filter by -k mb](screenshots/05-filter-k-mb.png)
+
 
 **Exclude tests by substring:**
 ```bash
@@ -153,8 +138,7 @@ pytest -k "not gb and not mb" -v
 
 The `-v` flag (verbose) prints each test name individually so you can confirm which ones ran.
 
-![Filter exclude](screenshots/06-filter-exclude.png)
-
+![Parametrize decorator](screenshots/07-parametrize-decorator.png)
 ---
 
 ## 5. Providing Multiple Test Cases
@@ -190,7 +174,7 @@ def test_format_file_size_returns_format_tb():
     assert format_file_size(1024**4) == "1.00 TB"
 ```
 
-![Repetitive test functions](screenshots/24-repetitive-functions.png)
+
 
 The structure is identical — only the inputs and expected values differ.
 
@@ -198,7 +182,7 @@ The structure is identical — only the inputs and expected values differ.
 
 Pytest's `parametrize` decorator collapses all those cases into a single function:
 
-![Parametrize decorator](screenshots/07-parametrize-decorator.png)
+
 
 ```python
 import pytest
@@ -430,6 +414,10 @@ tests/test_with_timeout.py:12: Failed
 
 ![Timeout fail output](screenshots/22-timeout-fail-output.png)
 
+The failure message Timeout >1.0s appears exactly where the hanging call is, which makes it
+easy to trace.
+
+![Repetitive test functions](screenshots/24-repetitive-functions.png)
 ### 9.2 Other Useful Plugins
 
 | Plugin | Purpose |
