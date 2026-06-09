@@ -357,14 +357,12 @@ Apply the marker to any test:
 ![Timeout marker code](screenshots/22-timeout-fail-output.png)
 
 
-```
 The time.sleep() calls here are stand-ins for whatever real logic you want to time-constrain.
 Running these produces one pass and one failure:
 
 ![Timeout fail output](screenshots/23-full-suite-run.png)
 
-The failure message Timeout >1.0s appears exactly where the hanging call is, which makes it
-easy to trace.
+The failure message `Timeout >1.0s` appears exactly where the hanging call is, which makes it easy to trace.
 
 ![Repetitive test functions](screenshots/24-repetitive-functions.png)
 
@@ -372,9 +370,9 @@ easy to trace.
 
 | Plugin | Purpose |
 |---|---|
-| **pytest-cov** | Reports which lines and branches of source code are exercised by tests. Start here — it highlights untested functions and code paths. |
+| **pytest-cov** | Reports which lines and branches of source code are exercised by tests. Start here - it highlights untested functions and code paths. |
 | **pytest-xdist** | Runs tests in parallel across multiple CPU cores. Speeds up large test suites, provided tests don't share mutable state. |
-| **pytest-django** / **pytest-flask** | Framework integrations for Django and Flask — database rollback between tests, test client utilities, request handling. |
+| **pytest-django** / **pytest-flask** | Framework integrations for Django and Flask - database rollback between tests, test client utilities, request handling. |
 | **pytest-docker** | Starts required Docker containers (databases, queues, services) before integration tests and shuts them down afterwards. |
 
 ---
@@ -389,6 +387,6 @@ easy to trace.
 | Data classes | Cleaner parametrized cases when test inputs carry extra context (e.g., expected error types) |
 | `pytest.raises()` | Verify that the right exception is raised with the right message |
 | Fixtures | Centralize setup/teardown logic; use `scope="module"` to share expensive resources |
-| Plugins | Extend Pytest via the marker system and CLI — no framework changes required |
+| Plugins | Extend Pytest via the marker system and CLI - no framework changes required |
 
-Good tests are not just about covering cases — they should be readable enough that a failure message points directly to what broke and why. The plugin ecosystem is part of what makes Pytest scale from small scripts to full production projects.
+Good tests are not just about covering cases - they should be readable enough that a failure message points directly to what broke and why. The plugin ecosystem is part of what makes Pytest scale from small scripts to full production projects.
