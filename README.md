@@ -75,7 +75,6 @@ pytest
 
 ![pip install pytest](screenshots/03-pip-install-pytest.png)
 
-![Full suite run](screenshots/23-full-suite-run.png)
 
 ---
 
