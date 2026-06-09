@@ -367,6 +367,7 @@ The failure message Timeout >1.0s appears exactly where the hanging call is, whi
 easy to trace.
 
 ![Repetitive test functions](screenshots/24-repetitive-functions.png)
+
 ### 9.2 Other Useful Plugins
 
 | Plugin | Purpose |
